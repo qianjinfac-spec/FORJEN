@@ -37,7 +37,7 @@ export function Hero() {
           <RevealText
             as="h1"
             lines={["Engineered to Shape.", "Built to Endure."]}
-            className="font-display text-[clamp(2.5rem,7vw,5.75rem)] font-black leading-[1.1] tracking-normal text-ink-foreground"
+            className="bg-gradient-to-r from-[#d6e6ff] via-[#9cbeff] to-[#5b82ff] bg-clip-text font-display text-[clamp(2.5rem,7vw,5.75rem)] font-black leading-[1.1] tracking-normal text-transparent"
           />
           <motion.p
             initial={{ opacity: 0, y: 16 }}
