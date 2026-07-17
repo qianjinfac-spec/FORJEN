@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { inquirySchema } from "@/lib/inquiry-schema";
+import { supabase } from "@/lib/supabase";
 
-// TODO: replace this mock handler with a real integration — forward to a CRM
-// (e.g. HubSpot, Salesforce) or send transactional email via a provider such
-// as Resend / SendGrid. Keep the honeypot + validation checks below either way.
 const documentRequestSchema = z.object({
   type: z.literal("document-request"),
   document: z.string().min(1),
@@ -23,7 +21,17 @@ export async function POST(request: Request) {
 
   const documentResult = documentRequestSchema.safeParse(body);
   if (documentResult.success) {
-    // TODO: forward document request to CRM / fulfillment email.
+    const { error } = await supabase.from("form_submissions").insert({
+      type: "document-request",
+      name: documentResult.data.name,
+      company: documentResult.data.company,
+      email: documentResult.data.email,
+      document: documentResult.data.document,
+    });
+    if (error) {
+      console.error("Failed to store document request:", error);
+      return NextResponse.json({ error: "Could not save submission." }, { status: 500 });
+    }
     return NextResponse.json({ ok: true });
   }
 
@@ -37,7 +45,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  // TODO: persist / forward result.data to CRM or notification email here.
+  const { error } = await supabase.from("form_submissions").insert({
+    type: "inquiry",
+    name: result.data.name,
+    company: result.data.company,
+    country: result.data.country,
+    email: result.data.email,
+    whatsapp: result.data.whatsapp || null,
+    business_type: result.data.businessType,
+    division: result.data.division,
+    cooperation_type: result.data.cooperationType,
+    message: result.data.message,
+  });
+  if (error) {
+    console.error("Failed to store inquiry:", error);
+    return NextResponse.json({ error: "Could not save submission." }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }
