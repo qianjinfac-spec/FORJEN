@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { motion, useMotionValue } from "motion/react";
 
 export function CustomCursor() {
   const [hovering, setHovering] = useState(false);
@@ -9,8 +9,6 @@ export function CustomCursor() {
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const springX = useSpring(x, { damping: 28, stiffness: 350, mass: 0.5 });
-  const springY = useSpring(y, { damping: 28, stiffness: 350, mass: 0.5 });
 
   useEffect(() => {
     const supportsFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -47,7 +45,7 @@ export function CustomCursor() {
   return (
     <motion.div
       className="pointer-events-none fixed left-0 top-0 z-[100] mix-blend-difference"
-      style={{ x: springX, y: springY, opacity: visible ? 1 : 0 }}
+      style={{ x, y, opacity: visible ? 1 : 0 }}
       aria-hidden
     >
       <motion.div
@@ -56,7 +54,7 @@ export function CustomCursor() {
           width: hovering ? 56 : 8,
           height: hovering ? 56 : 8,
         }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
       />
     </motion.div>
   );
