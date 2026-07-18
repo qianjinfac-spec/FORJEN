@@ -27,7 +27,7 @@ npm run lint     # ESLint
 app/                     Routes (App Router). Each folder is a page; app/api/inquiry is the
                           mock form-submission endpoint.
 components/
-  layout/                Navbar, Footer, SmoothScrollProvider (Lenis), CustomCursor,
+  layout/                Navbar, Footer, SmoothScrollProvider (Lenis),
                           MotionProvider (reduced-motion aware), PageHero
   ui/                     Design-system primitives: Button, Container, SectionLabel,
                           RevealText, RevealOnScroll, Counter, PlaceholderMedia, VideoModal

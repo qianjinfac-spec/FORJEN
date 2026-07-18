@@ -3,7 +3,6 @@ import { archivo, inter, plexMono } from "@/lib/fonts";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
-import { CustomCursor } from "@/components/layout/CustomCursor";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
@@ -76,7 +75,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         <MotionProvider>
           <SmoothScrollProvider>
-            <CustomCursor />
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
