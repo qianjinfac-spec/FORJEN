@@ -64,6 +64,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       lang="en"
       className={`${archivo.variable} ${inter.variable} ${plexMono.variable}`}
     >
+      <head>
+        {/* Intentionally redundant fallback for hosts that intermittently fail
+            to apply Next.js' hashed stylesheet on a browser's first visit. */}
+        {/* eslint-disable-next-line @next/next/no-css-tags */}
+        <link rel="stylesheet" href="/styles/forjen.css" />
+      </head>
       <body className="flex min-h-screen flex-col antialiased" id="top">
         <script
           type="application/ld+json"

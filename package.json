@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "generate:map": "node scripts/generate-static-world-map.mjs",
-    "prebuild": "npm run generate:map",
+    "generate:css": "node scripts/generate-fallback-css.mjs",
+    "prebuild": "npm run generate:map && npm run generate:css",
     "build": "next build",
     "start": "next start",
     "build:standalone": "next build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static",
