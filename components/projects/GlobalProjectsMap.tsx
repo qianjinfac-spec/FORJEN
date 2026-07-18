@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, MapPin, X } from "lucide-react";
 import { PlaceholderMedia } from "@/components/ui/PlaceholderMedia";
@@ -20,26 +20,30 @@ export function GlobalProjectsMap({ limit }: { limit?: number }) {
   }, [region, limit]);
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-2">
+    <div className="region-filter flex flex-wrap">
         {projectRegions.map((r) => (
-          <button
-            key={r}
-            type="button"
-            data-cursor="link"
-            onClick={() => setRegion(r)}
-            aria-pressed={region === r}
-            className={cn(
-              "rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors",
-              region === r
-                ? "border-accent bg-accent text-white"
-                : "border-line-dark text-ink-foreground/60 hover:border-ink-foreground/40 hover:text-ink-foreground",
-            )}
-          >
-            {r}
-          </button>
+          <Fragment key={r}>
+            <input
+              id={`project-region-${r.toLowerCase().replaceAll(/[^a-z]+/g, "-")}`}
+              className="region-radio sr-only"
+              type="radio"
+              name="project-region"
+              value={r}
+              checked={region === r}
+              onChange={() => setRegion(r)}
+            />
+            <label
+              htmlFor={`project-region-${r.toLowerCase().replaceAll(/[^a-z]+/g, "-")}`}
+              data-cursor="link"
+              className={cn(
+                "region-label relative z-10 mb-2 mr-2 block cursor-pointer rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors",
+                "border-line-dark text-ink-foreground/60 hover:border-ink-foreground/40 hover:text-ink-foreground",
+              )}
+            >
+              {r}
+            </label>
+          </Fragment>
         ))}
-      </div>
 
       {/* Real world map — desktop / tablet. Blue-filled countries are FORJEN's export footprint.
           Width is "whichever is smaller: the full column, or what the height cap allows at the
@@ -47,7 +51,7 @@ export function GlobalProjectsMap({ limit }: { limit?: number }) {
           short/wide viewports the height cap wins (map fits one screen); on tall/narrow ones the
           column width wins (no oversized side gaps). Height is then derived from that width via
           aspect-ratio, so it's never set directly. */}
-      <div className="mt-8 hidden md:flex md:justify-center">
+      <div className="map-shell mt-6 hidden basis-full md:flex md:justify-center">
         <div
           className="relative overflow-hidden rounded-sm border border-line-dark bg-ink-soft"
           style={{ aspectRatio: "1010/666", width: "min(100%, calc((100vh - 220px) * 1010 / 666))" }}
@@ -74,7 +78,7 @@ export function GlobalProjectsMap({ limit }: { limit?: number }) {
       </div>
 
       {/* List — always available, primary view on mobile */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 md:hidden">
+      <div className="mt-6 grid basis-full gap-4 sm:grid-cols-2 md:hidden">
         {filtered.map((project) => (
           <button
             key={project.id}

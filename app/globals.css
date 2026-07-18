@@ -75,6 +75,33 @@ body {
   cursor: none;
 }
 
+/* Native radio controls keep the project-region filters visibly interactive
+   even before React hydration has completed. */
+.region-radio:checked + .region-label {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: white;
+}
+
+.region-radio:focus-visible + .region-label {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+#project-region-asia-pacific:checked ~ .map-shell .world-map-layer-all,
+#project-region-middle-east-africa:checked ~ .map-shell .world-map-layer-all,
+#project-region-europe:checked ~ .map-shell .world-map-layer-all,
+#project-region-americas:checked ~ .map-shell .world-map-layer-all {
+  display: none;
+}
+
+#project-region-asia-pacific:checked ~ .map-shell .world-map-layer-asia-pacific,
+#project-region-middle-east-africa:checked ~ .map-shell .world-map-layer-middle-east-africa,
+#project-region-europe:checked ~ .map-shell .world-map-layer-europe,
+#project-region-americas:checked ~ .map-shell .world-map-layer-americas {
+  display: block;
+}
+
 @media (max-width: 767px), (hover: none), (pointer: coarse) {
   .no-cursor {
     cursor: auto;

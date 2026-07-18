@@ -1,5 +1,5 @@
-import worldMap from "@svg-maps/world";
-import { exportCountries, exportCountryCodes } from "@/data/exportCountries";
+import Image from "next/image";
+import { exportCountries } from "@/data/exportCountries";
 import { cn } from "@/lib/utils";
 
 // Maps the finer-grained regions in /data/exportCountries.ts onto the four
@@ -15,52 +15,47 @@ const regionToFilter: Record<string, string> = {
   "Middle East": "Middle East & Africa",
 };
 
-/** Real world map (via @svg-maps/world) with FORJEN's exported-to countries highlighted. */
+/** Static world map with lightweight HTML labels that respond to the active region. */
 export function WorldMap({ region = "All Regions", className }: { region?: string; className?: string }) {
   const visibleLabels =
     region === "All Regions" ? exportCountries : exportCountries.filter((c) => regionToFilter[c.region] === region);
 
   return (
     <div className={cn("relative", className)}>
-      <svg
-        viewBox={worldMap.viewBox}
-        className="h-full w-full"
-        role="img"
-        aria-label="World map highlighting countries FORJEN has exported equipment to"
-      >
-        {worldMap.locations.map((location) => {
-          const highlighted = exportCountryCodes.has(location.id);
-          return (
-            <path
-              key={location.id}
-              d={location.path}
-              data-id={location.id}
-              data-name={location.name}
-              className={cn(
-                "transition-colors duration-300",
-                highlighted
-                  ? "fill-accent-light hover:brightness-125"
-                  : "fill-ink-foreground/[0.06] hover:fill-ink-foreground/[0.1]",
-              )}
-              stroke="#0B0D0F"
-              strokeWidth={0.5}
-            />
-          );
-        })}
-
-        {visibleLabels.map((country) => (
-          <text
-            key={country.code}
-            x={country.labelX}
-            y={country.labelY}
-            textAnchor="middle"
-            className="pointer-events-none select-none fill-ink-foreground font-mono"
-            style={{ fontSize: 6.5, paintOrder: "stroke", stroke: "#0B0D0F", strokeWidth: 1.4, strokeLinejoin: "round" }}
-          >
-            {country.name}
-          </text>
-        ))}
-      </svg>
+      <Image
+        src="/images/maps/forjen-export-map.svg"
+        alt="World map highlighting countries FORJEN has exported equipment to"
+        width={1010}
+        height={666}
+        unoptimized
+        className="world-map-layer world-map-layer-all h-full w-full object-contain"
+      />
+      {[
+        ["asia-pacific", "/images/maps/forjen-export-map-asia-pacific.svg"],
+        ["middle-east-africa", "/images/maps/forjen-export-map-middle-east-africa.svg"],
+        ["europe", "/images/maps/forjen-export-map-europe.svg"],
+        ["americas", "/images/maps/forjen-export-map-americas.svg"],
+      ].map(([mapRegion, src]) => (
+        <Image
+          key={mapRegion}
+          src={src}
+          alt=""
+          width={1010}
+          height={666}
+          unoptimized
+          aria-hidden
+          className={`world-map-layer world-map-layer-${mapRegion} absolute inset-0 hidden h-full w-full object-contain`}
+        />
+      ))}
+      {visibleLabels.map((country) => (
+        <span
+          key={country.code}
+          className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-mono text-[clamp(5px,0.5vw,9px)] text-ink-foreground [text-shadow:0_0_2px_#0b0d0f,0_0_2px_#0b0d0f]"
+          style={{ left: `${(country.labelX / 1010) * 100}%`, top: `${(country.labelY / 666) * 100}%` }}
+        >
+          {country.name}
+        </span>
+      ))}
     </div>
   );
 }
