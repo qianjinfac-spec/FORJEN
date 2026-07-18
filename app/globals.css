@@ -84,20 +84,6 @@ body {
   outline-offset: 3px;
 }
 
-#project-region-asia-pacific:checked ~ .map-shell .world-map-layer-all,
-#project-region-middle-east-africa:checked ~ .map-shell .world-map-layer-all,
-#project-region-europe:checked ~ .map-shell .world-map-layer-all,
-#project-region-americas:checked ~ .map-shell .world-map-layer-all {
-  display: none;
-}
-
-#project-region-asia-pacific:checked ~ .map-shell .world-map-layer-asia-pacific,
-#project-region-middle-east-africa:checked ~ .map-shell .world-map-layer-middle-east-africa,
-#project-region-europe:checked ~ .map-shell .world-map-layer-europe,
-#project-region-americas:checked ~ .map-shell .world-map-layer-americas {
-  display: block;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

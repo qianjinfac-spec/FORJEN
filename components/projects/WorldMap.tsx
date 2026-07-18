@@ -15,6 +15,14 @@ const regionToFilter: Record<string, string> = {
   "Middle East": "Middle East & Africa",
 };
 
+const regionMapSource: Record<string, string> = {
+  "All Regions": "/images/maps/forjen-export-map.svg",
+  "Asia Pacific": "/images/maps/forjen-export-map-asia-pacific.svg",
+  "Middle East & Africa": "/images/maps/forjen-export-map-middle-east-africa.svg",
+  Europe: "/images/maps/forjen-export-map-europe.svg",
+  Americas: "/images/maps/forjen-export-map-americas.svg",
+};
+
 /** Static world map with lightweight HTML labels that respond to the active region. */
 export function WorldMap({ region = "All Regions", className }: { region?: string; className?: string }) {
   const visibleLabels =
@@ -23,30 +31,15 @@ export function WorldMap({ region = "All Regions", className }: { region?: strin
   return (
     <div className={cn("relative", className)}>
       <Image
-        src="/images/maps/forjen-export-map.svg"
+        key={region}
+        src={regionMapSource[region] ?? regionMapSource["All Regions"]}
         alt="World map highlighting countries FORJEN has exported equipment to"
         width={1010}
         height={666}
         unoptimized
-        className="world-map-layer world-map-layer-all h-full w-full object-contain"
+        loading="lazy"
+        className="h-full w-full object-contain"
       />
-      {[
-        ["asia-pacific", "/images/maps/forjen-export-map-asia-pacific.svg"],
-        ["middle-east-africa", "/images/maps/forjen-export-map-middle-east-africa.svg"],
-        ["europe", "/images/maps/forjen-export-map-europe.svg"],
-        ["americas", "/images/maps/forjen-export-map-americas.svg"],
-      ].map(([mapRegion, src]) => (
-        <Image
-          key={mapRegion}
-          src={src}
-          alt=""
-          width={1010}
-          height={666}
-          unoptimized
-          aria-hidden
-          className={`world-map-layer world-map-layer-${mapRegion} absolute inset-0 hidden h-full w-full object-contain`}
-        />
-      ))}
       {visibleLabels.map((country) => (
         <span
           key={country.code}

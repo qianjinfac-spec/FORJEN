@@ -1,11 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Inline Tailwind styles into the initial HTML so a cold Hostinger instance
-  // cannot briefly serve an unstyled page to first-time visitors.
-  experimental: {
-    inlineCss: true,
-  },
   // Self-contained server output (server.js + only the deps it needs) —
   // the deployment shape SiteGround's Node.js Selector (and most non-Vercel
   // Node hosts) expects, instead of requiring `next start` + full node_modules.
@@ -13,14 +8,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Revalidate HTML after every deployment so a CDN cannot pair an old
-        // document with CSS/JS chunks from a newer build. Hashed static files
-        // retain Next.js' immutable cache policy.
+        // Let Hostinger's edge cache shield visitors from Node cold starts.
+        // The short shared TTL keeps deployments fresh, while stale content
+        // remains available during background revalidation or an origin wake-up.
         source: "/((?!_next/static|_next/image|api/).*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "no-cache, no-store, must-revalidate",
+            value: "public, max-age=0, s-maxage=300, stale-while-revalidate=86400",
           },
         ],
       },
