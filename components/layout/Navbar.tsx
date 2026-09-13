@@ -54,7 +54,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
-        scrolled || open ? "bg-ink/85 backdrop-blur-md border-b border-line-dark" : "bg-transparent",
+        scrolled || open ? "bg-white/95 backdrop-blur-md border-b border-black/10" : "bg-white",
       )}
     >
       <Container className="flex h-20 items-center justify-between md:h-24">
@@ -77,7 +77,7 @@ export function Navbar() {
               href={item.href}
               data-cursor="link"
               className={cn(
-                "shrink-0 whitespace-nowrap font-mono text-xs uppercase tracking-[0.12em] text-ink-foreground/70 transition-colors hover:text-ink-foreground",
+                "shrink-0 whitespace-nowrap font-mono text-xs uppercase tracking-[0.12em] text-[#566064] transition-colors hover:text-[#171c1d]",
                 pathname === item.href && "text-accent",
               )}
             >

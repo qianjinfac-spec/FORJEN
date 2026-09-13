@@ -7,9 +7,11 @@
   --color-paper-soft: #e8e5dc;
   --color-ink-foreground: #f5f5f2;
   --color-paper-foreground: #111315;
-  --color-accent: #2457ff;
-  --color-accent-light: #5b82ff;
-  --color-safety: #ff5a1f;
+  /* DALLAN-inspired industrial palette: restrained white, graphite and teal.
+     The brand remains distinctly FORJEN through its own content and logo. */
+  --color-accent: #008f8b;
+  --color-accent-light: #24b4ae;
+  --color-safety: #f0b323;
   --color-steel: #9aa0a6;
   --color-line-dark: rgba(245, 245, 242, 0.14);
   --color-line-light: rgba(17, 19, 21, 0.12);
